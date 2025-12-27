@@ -82,6 +82,45 @@ int Radix:: kuyrukolusturvesirala(int satirno)
     return sirala(*kuyruk,maxbasamak);
 }
 
+int Radix::kuyrukolusturvesirala(const string& line)
+{
+    delete kuyruk;
+    for (int i = 0; i < 10; i++)
+    {
+        delete kuyruklar[i];
+        kuyruklar[i]=new Doku();
+    }
+    kuyruk = new Doku();   
+    string str = line + " ";  // Add space at end for parsing
+    int sayac = 0;
+    int maxbasamak = 0;
+    string kelime = "";
+    for (auto x : str)
+    { 
+        
+        if(x==' ')
+        {
+            if(!kelime.empty())  // Only process non-empty words
+            {
+                this->kuyruk->ekle(stoi(kelime));
+                kelime = "";
+                if(maxbasamak<sayac)
+                {
+                    maxbasamak=sayac;
+                }
+                sayac = 0;
+            }
+        }
+        else 
+        {
+            sayac++;
+            kelime = kelime+x;
+        }
+    }
+    
+    return sirala(*kuyruk,maxbasamak);
+}
+
 int Radix::sirala(Doku &siralanacak, int basamaksayisi)
 {
     Doku* gecici = &siralanacak;                            // siralanacak kuyruk geciciye atıldı
