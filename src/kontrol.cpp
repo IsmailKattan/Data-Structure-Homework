@@ -2,7 +2,28 @@
 
 Kontrol::Kontrol()
 {
-    this->markline=1;
+    this->markline=0;
+    veriDosyasiniOku();  // Read all data when Kontrol is created
+}
+
+void Kontrol::veriDosyasiniOku()
+{
+    tumSatirlar.clear();
+    string line;
+    fstream dosya;
+    dosya.open("veri.txt",ios::in);  // Try lowercase first
+    if (!dosya.is_open())
+    {
+        dosya.open("Veri.txt",ios::in);  // Try uppercase if lowercase fails
+    }
+    if (dosya.is_open())
+    {
+        while (getline(dosya,line))
+        {
+            tumSatirlar.push_back(line);
+        }
+        dosya.close();
+    }
 }
 
 Sistem* Kontrol::sistemolustur()
@@ -14,8 +35,12 @@ Sistem* Kontrol::sistemolustur()
         Organ* organ = new Organ();
         for (int j = 0; j < 20; j++)
         {
-            organ->ekle(organveri->kuyrukolusturvesirala(markline));
-            markline++;
+            if (markline < tumSatirlar.size())
+            {
+                // Use pre-loaded data instead of reading from file
+                organ->ekle(organveri->kuyrukolusturvesirala(tumSatirlar[markline]));
+                markline++;
+            }
         }
         sistem->ekle(organ->avlmi());
         if (organ->avlmi())
@@ -31,21 +56,13 @@ Sistem* Kontrol::sistemolustur()
 
 Organizma* Kontrol::organizmaolustur()
 {   
-    
     Organizma* o = new Organizma();
-    string line;
-    int sayac=0;
-    fstream dosya;
-    dosya.open("veri.txt",ios::in);// read
-    if (dosya.is_open())
-    {
-        while (getline(dosya,line))
-        {
-            sayac++;
-        }
-        dosya.close();
-    }
-    for (int i = 0; i < sayac/2000; i++)
+    int toplamSatir = tumSatirlar.size();
+    
+    // Reset markline for each organism creation
+    markline = 0;
+    
+    for (int i = 0; i < toplamSatir/2000; i++)
     {
         o->ekle(sistemolustur());
         cout <<endl;

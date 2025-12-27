@@ -18,6 +18,7 @@ public:
     Radix();
     ~Radix();
     int kuyrukolusturvesirala(int satino);
+    int kuyrukolusturvesirala(const string& line);  // New method that accepts string directly
     string oku(int satirno);
 };
 #endif

@@ -1,0 +1,41 @@
+# Compiled Object files
+lib/*.o
+*.o
+*.obj
+
+# Executables
+bin/*
+*.exe
+*.out
+*.app
+
+# Build artifacts
+*.a
+*.so
+*.dylib
+*.dll
+
+# IDE and Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Debug files
+*.dSYM/
+*.su
+*.idb
+*.pdb
+
+# Temporary files
+*.tmp
+*.temp
+*.log
+
+# Backup files
+*.bak
+*~
+
+
